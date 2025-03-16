@@ -85,10 +85,10 @@
                             </mat-form-field>
 
                             <mat-form-field [ngClass]="{'up-select-readonly': !isAuthorized}" class="col-md-6 up-form-field" appearance="outline">
-                                <mat-label>Allocated Cities</mat-label>
-                                <mat-select (selectionChange)="selectedCities($event)" formControlName="citiesAllocated" multiple required>
-                                  <mat-option *ngFor="let city of cities" [value]="city">
-                                    {{city}}
+                                <mat-label>Activate Profile</mat-label>
+                                <mat-select formControlName="profileActive">
+                                  <mat-option *ngFor="let option of binaryQuetionArr" [value]="option">
+                                    {{option}}
                                   </mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -132,14 +132,21 @@
 
                         <div class="row">
                             <mat-form-field [ngClass]="{'up-select-readonly': !isAuthorized}" class="col-md-6 up-form-field" appearance="outline">
-                                <mat-label>Activate Profile</mat-label>
-                                <mat-select formControlName="profileActive">
-                                  <mat-option *ngFor="let option of binaryQuetionArr" [value]="option">
-                                    {{option}}
+                                <mat-label>Allocated States</mat-label>
+                                <mat-select (openedChange)="selectedStatesPanelChange($event)" (selectionChange)="selectedStates($event)" formControlName="statesAllocated" multiple required>
+                                  <mat-option *ngFor="let state of states" [value]="state">
+                                    {{state}}
                                   </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                    
+                            <mat-form-field [ngClass]="{'up-select-readonly': !isAuthorized}" class="col-md-6 up-form-field" appearance="outline">
+                                <mat-label>Allocated Cities</mat-label>
+                                <mat-select (selectionChange)="selectedCities($event)" formControlName="citiesAllocated" multiple required>
+                                  <mat-option *ngFor="let city of multipleCities" [value]="city">
+                                    {{city}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </div>
 
                         

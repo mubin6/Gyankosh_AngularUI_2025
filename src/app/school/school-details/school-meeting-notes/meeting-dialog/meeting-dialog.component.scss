@@ -65,6 +65,16 @@
     }  
 }
 
+.next-appointment-err {
+    font-size: 10px;
+    color: red;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 6px;
+    margin-bottom: 3px;
+}
+
 ::ng-deep .mom-form-field.mat-mdc-form-field .mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
     font-size: 12px !important;
     top: 25px !important;

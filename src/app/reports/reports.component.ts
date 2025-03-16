@@ -22,6 +22,11 @@ export class ReportsComponent implements OnInit {
   reportUrl!: any;
   fileName!: string;
 
+  // MBP Users var
+  isReadyToDownloadUsers = false
+  usersUrl!: any;
+  userFileName!: string;
+
   // table
   displayedColumns = ['id', 'schoolName', 'nextAppointment'];
   report2DataSource: Report2Dto[] = [];
@@ -47,7 +52,7 @@ export class ReportsComponent implements OnInit {
     })
   }
 
-  createSchoolReportFileName() {
+  createSchoolReportFileName(name: string) {
     const date = new Date();
     const month = date.getMonth() + 1;
     const day = date.getDate();
@@ -56,7 +61,7 @@ export class ReportsComponent implements OnInit {
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
 
-    return `SchoolAdminReport_${year}-${month < 9 ? '0'+month : month}-${day < 9 ? '0'+day : day}_${hour < 9 ? '0'+hour : hour}:${minutes < 9 ? '0'+minutes : minutes}:${seconds < 9 ? '0'+seconds : seconds}.xlsx`;
+    return `${name}_${year}-${month < 9 ? '0'+month : month}-${day < 9 ? '0'+day : day}_${hour < 9 ? '0'+hour : hour}:${minutes < 9 ? '0'+minutes : minutes}:${seconds < 9 ? '0'+seconds : seconds}.xlsx`;
   }
 
   downloadReport1(state: string) {
@@ -69,7 +74,7 @@ export class ReportsComponent implements OnInit {
       // Extract the file name
       // SchoolAdminReport_2024-02-17_12:30:59.xlsx
       const matches = /filename=([^;]+)/ig.exec(contentDisposition) || '';
-      const fileName = (matches[1] || this.createSchoolReportFileName()).trim();
+      const fileName = (matches[1] || this.createSchoolReportFileName('SchoolAdminReport')).trim();
 
       this.blob = new Blob([(resp.body as Blob)], {type: 'application/octet-stream'});
       const downloadURL = window.URL.createObjectURL((resp.body as Blob));
@@ -93,13 +98,47 @@ export class ReportsComponent implements OnInit {
       this.loginService.showSuccess('File Downloaded Successfully');
   }
 
+  getAllUsersToDownload() {
+    this.spinner.show();
+    this.loginService.downloadMbpUsers().subscribe((resp: HttpResponse<Blob>) => {
 
-  getReport2() {
-    const loggedInUserDetails = JSON.parse(this.loginService.getUserDetails());
-    this.loginService.getReport2(loggedInUserDetails.id).subscribe((resp: ResponseDto<any>) => {
-      this.report2DataSource = resp.message;
+      // Extract content disposition header
+      const contentDisposition = resp.headers.get('content-disposition') || '';
+
+      // Extract the file name
+      // SchoolAdminReport_2024-02-17_12:30:59.xlsx
+      const matches = /filename=([^;]+)/ig.exec(contentDisposition) || '';
+      const fileName = (matches[1] || this.createSchoolReportFileName('ALLMBPUsers')).trim();
+
+      this.blob = new Blob([(resp.body as Blob)], {type: 'application/octet-stream'});
+      const downloadURL = window.URL.createObjectURL((resp.body as Blob));
+      this.isReadyToDownloadUsers = true;
+      this.usersUrl = downloadURL;
+      this.userFileName = fileName;
+      
+
+      this.spinner.hide();
+
+    }, err => {
+      this.spinner.hide();
     })
   }
+
+  downloadAllUsers() {
+    const link = document.createElement('a');
+    link.href = this.usersUrl;
+    link.download = this.userFileName;
+    link.click();
+    this.loginService.showSuccess('File Downloaded Successfully');
+  }
+
+
+  // getReport2() {
+  //   const loggedInUserDetails = JSON.parse(this.loginService.getUserDetails());
+  //   this.loginService.getReport2(loggedInUserDetails.id).subscribe((resp: ResponseDto<any>) => {
+  //     this.report2DataSource = resp.message;
+  //   })
+  // }
 
   selectedState(evt: MatSelectChange) {
     const state = evt.value;

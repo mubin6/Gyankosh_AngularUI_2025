@@ -56,4 +56,10 @@ export class UserService {
     formData.append("file", file);
     return this.http.post(`${this.securedBaseUrl}/School/ImportSchoolListInBulk`, formData);
   }
+
+  getMultipleCities(states: Array<number>) {
+    let params = new HttpParams().set('states', `${states}`);
+    return this.http.get<any>(`${this.securedBaseUrl}/Login/multipleCities`, {params});
+  }
+
 }

@@ -122,4 +122,16 @@ export class LoginService {
     const params = new HttpParams().set('user_id', id);
     return this.http.get<any>(`${this.securedBaseUrl}/School/Admin/Report2`, {params});
   }
+
+  downloadMbpUsers() {
+    // const params = new HttpParams().set('state', state);
+    return this.http.get(`${this.securedBaseUrl}/Login/findAllMBPUsers`, 
+    {
+      // params,
+      responseType: 'blob',
+      observe: 'response'
+    }
+    );
+    
+  }
 }

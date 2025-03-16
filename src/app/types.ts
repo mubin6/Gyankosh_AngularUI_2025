@@ -37,9 +37,10 @@ export interface UserReq {
     imageName?: string;
 
     reportingmanagerId: number;
-    reportingmanagerName?: string,
-    nameofMyTeam?: string,
-    citiesAllocated?: Array<string>
+    reportingmanagerName?: string;
+    nameofMyTeam?: string;
+    citiesAllocated?: Array<string>;
+    statesAllocated?: Array<number>;
     schoolAllocated?: Array<number>;
     mbpcode?: string;
     jwtToken?: string;

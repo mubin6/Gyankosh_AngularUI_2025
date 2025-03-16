@@ -3,7 +3,7 @@
 <div class="flex-center smn-details-main">
   <div class="table-card">
     <div class="table-title">
-      <!-- <span class="utv-title">Point of Contacts</span> -->
+      <span class="utv-title">Meeting Notes</span>
       <button *ngIf="isBtnShow" (click)="openMOMDetails(false)" class="add-btn" mat-raised-button color="warn">Add Meeting Notes</button>
     </div>
     <div class="table-container">
@@ -30,7 +30,7 @@
 
         <!-- MOM Column -->
         <ng-container matColumnDef="mom">
-            <th class="text-center" mat-header-cell *matHeaderCellDef> Mom </th>
+            <th style="width: 50%;" class="text-center" mat-header-cell *matHeaderCellDef> Mom </th>
             <td class="text-center" mat-cell *matCellDef="let element"> {{element.mom}} </td>
         </ng-container>
 

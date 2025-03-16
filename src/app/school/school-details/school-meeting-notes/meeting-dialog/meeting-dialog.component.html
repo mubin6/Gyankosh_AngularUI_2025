@@ -16,7 +16,8 @@
                 <mat-form-field class="col-md-6 col-12 mom-form-field" appearance="outline">
                     <mat-label>Meeting DateTime</mat-label>
                     <input matInput [ngxMatDatetimePicker]="pickerCustomIcon" placeholder="Choose a date"
-                    formControlName="meetingDateTime" [disabled]="false">
+                    formControlName="meetingDateTime" [disabled]="false"
+                    />
                     <ngx-mat-datepicker-toggle matSuffix [for]="pickerCustomIcon"></ngx-mat-datepicker-toggle>
                     <ngx-mat-datetime-picker #pickerCustomIcon [showSpinners]="true" [showSeconds]="true"
                       [stepHour]="1" [stepMinute]="1" [stepSecond]="1" [touchUi]="false"
@@ -31,7 +32,9 @@
                 <mat-form-field class="col-md-6 col-12 mom-form-field" appearance="outline">
                     <mat-label>Next Appointment</mat-label>
                     <input matInput [ngxMatDatetimePicker]="pickerCustomIcon1" placeholder="Choose a date"
-                    formControlName="nextAppointment" [disabled]="false">
+                    formControlName="nextAppointment" [disabled]="false"
+                    [min]="momForm.controls['meetingDateTime'].value"
+                    />
                     <ngx-mat-datepicker-toggle matSuffix [for]="pickerCustomIcon1"></ngx-mat-datepicker-toggle>
                     <ngx-mat-datetime-picker #pickerCustomIcon1 [showSpinners]="true" [showSeconds]="true"
                       [stepHour]="1" [stepMinute]="1" [stepSecond]="1" [touchUi]="false"
@@ -41,7 +44,11 @@
                         <button mat-raised-button color="primary" ngxMatDatepickerApply>Apply</button>
                       </ngx-mat-datepicker-actions>
                     </ngx-mat-datetime-picker>
+                    <span class="next-appointment-err" *ngIf="momForm.controls['nextAppointment'].errors && momForm.controls['nextAppointment'].errors['matDatetimePickerMin']">
+                        Please select valid date
+                    </span>
                 </mat-form-field>
+                
             </div>
 
             <div class="row">
@@ -68,7 +75,7 @@
 
         </form>
         <div class="col-md-12 text-center btn-container">
-            <button (click)="submitMOM()" class="save-btn" mat-flat-button color="warn">Save</button>
+            <button [disabled]="momForm.invalid" (click)="submitMOM()" class="save-btn" mat-flat-button color="warn">Save</button>
         </div>
     </section>
 </div>

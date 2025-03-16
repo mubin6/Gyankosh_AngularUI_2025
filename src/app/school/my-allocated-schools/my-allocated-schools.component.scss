@@ -1,0 +1,47 @@
+.mas-main {
+    height: 90vh;
+    .table-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+        position: relative;
+        .utv-title {
+          font-size: 16px;
+          font-weight: 500;
+          position: inherit;
+          top: 3px;
+        }
+      }
+    .table-card {
+        width: 95%;
+        height: 85vh;
+        margin: 16px 0px;
+        padding: 20px 50px;
+        overflow: auto;
+        display: block;
+    }
+}
+
+.table-container {
+  height: 90%;
+  overflow: auto;
+}
+
+.h-42 {
+    height: 42px !important;
+    font-size: 12px;
+}
+.report2-header-row {
+    background: lightsalmon; //#f3b570;
+}
+
+.no-record-msg {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    color: darkgray;
+}

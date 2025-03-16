@@ -10,6 +10,7 @@ import { SchoolDetailsComponent } from './school/school-details/school-details.c
 import { SchoolTableViewComponent } from './school/school-table-view/school-table-view.component';
 import { authGuard } from './Guard/auth.guard';
 import { ReportsComponent } from './reports/reports.component';
+import { MyAllocatedSchoolsComponent } from './school/my-allocated-schools/my-allocated-schools.component';
 
 const routes: Routes =  [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -22,6 +23,7 @@ const routes: Routes =  [
   { path: 'school-details/:id', component: SchoolDetailsComponent, canActivate:[authGuard()]  },
   { path: 'school', component: SchoolTableViewComponent, canActivate:[authGuard()]  },
   { path: 'reports', component: ReportsComponent, canActivate:[authGuard()]  },
+  { path: 'my-allocated-schools', component: MyAllocatedSchoolsComponent, canActivate:[authGuard()]  },
   
   { path: '**', component: LoginComponent  },
 ];

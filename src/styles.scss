@@ -147,7 +147,7 @@ input[type=radio].default {
 }
 
 .mat-calendar-body-selected {
-  background-color: #007f51;
+  background-color: $primary-color; //#007f51;
   color: #fff;
 }
 

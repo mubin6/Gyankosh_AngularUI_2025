@@ -22,6 +22,12 @@
           </mat-icon>
           Reporting To Me
         </li>
+        <li *ngIf="isAuthorized" class="nav-item-list ft-sz-500" routerLink="/my-allocated-schools">
+          <mat-icon class="material-symbols-outlined nav-item-grp-icon">
+            location_city
+          </mat-icon>
+          My Allocated Schools
+        </li>
         <li class="nav-item-list ft-sz-500" (click)="navigateToProfile()">
           <mat-icon class="material-symbols-outlined nav-item-icon">
             person

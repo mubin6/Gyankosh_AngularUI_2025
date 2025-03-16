@@ -41,6 +41,7 @@ import { GradeDialogComponent } from './school/school-details/school-grade/grade
 import { AddTeamComponent } from './school/school-table-view/add-team/add-team.component';
 import { ReportsComponent } from './reports/reports.component';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+import { MyAllocatedSchoolsComponent } from './school/my-allocated-schools/my-allocated-schools.component';
 // import { MatDatepickerModule } from '@angular/material/datepicker';
 // import { MatNativeDateModule } from '@angular/material/core';
 
@@ -113,6 +114,7 @@ const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
     GradeDialogComponent,
     AddTeamComponent,
     ReportsComponent,
+    MyAllocatedSchoolsComponent,
   ],
   imports: [
     BrowserModule,

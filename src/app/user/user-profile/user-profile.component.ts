@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSelectChange } from '@angular/material/select';
@@ -46,6 +46,9 @@ export class UserProfileComponent implements OnInit {
   url: any = null;
   defaultImg: any = null;
   isUserLogoChanged = false;
+  allSelectedStates: Array<string> = [];
+  multipleStates = [];
+  multipleCities = [];
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
@@ -102,6 +105,7 @@ export class UserProfileComponent implements OnInit {
       instaID: [this.userDetail?.instaID],
       dob: [this.userDetail?.dob],
       citiesAllocated: [this.userDetail?.citiesAllocated],
+      statesAllocated: [],
       reportingmanagerId: [this.userDetail?.reportingmanagerId],
       profileActive: [this.userDetail?.profileActive],
       // schoolAllocated: [this.userDetail?.schoolAllocated}],
@@ -112,6 +116,8 @@ export class UserProfileComponent implements OnInit {
     this.searchCountry();
 
   }
+
+
 
   getUserEmail() {
     this.userService.emitEmail.subscribe(email => {
@@ -235,7 +241,7 @@ export class UserProfileComponent implements OnInit {
       this.statesObject = resp;
 
       if(this.isInitialStateLoad) {
-
+        this.getMultipleAllocatedStates();
         const state = this.states.find(state => state === this.userDetail?.state);
         const stateId = Object.keys(this.statesObject).find(key => this.statesObject[key] === this.userDetail?.state);
         
@@ -277,6 +283,8 @@ export class UserProfileComponent implements OnInit {
 
     })
   }
+
+  
 
   selectedCities(evt: MatSelectChange) {
     if(evt.value) {
@@ -339,6 +347,41 @@ export class UserProfileComponent implements OnInit {
       const id = this.userProfileForm.get('reportingmanagerId')?.value
       const link = `/user-profile?id=${id}`;
       window.open(link, '_blank');
+    }
+  }
+
+  selectedStates(evt: MatSelectChange) {
+    this.allSelectedStates = evt.value;
+  }
+
+  selectedStatesPanelChange(evt: boolean) {
+    if(!evt && this.allSelectedStates?.length) {
+      this.getMultipleCities();
+    }
+  }
+
+  getMultipleCities() {
+    let stateIds: Array<number> = [];
+    this.allSelectedStates.forEach(state => {
+      const stateId = Object.keys(this.statesObject).find(key => this.statesObject[key] === state);
+      if(stateId) {
+        stateIds.push(+stateId);
+      }
+    })
+    this.spinner.show();
+    this.userService.getMultipleCities(stateIds).subscribe(resp => {
+      this.multipleCities = Object.values(resp);
+      this.spinner.hide();
+    })
+  }
+
+  getMultipleAllocatedStates() {
+    if(this.userDetail?.statesAllocated?.length) {
+      this.userDetail.statesAllocated.forEach(stateId => {
+        this.allSelectedStates.push(this.statesObject[stateId]);
+      })
+      this.userProfileForm.controls['statesAllocated']?.patchValue(this.allSelectedStates ?? [])
+      this.getMultipleCities();
     }
   }
 
