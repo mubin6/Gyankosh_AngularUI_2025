@@ -173,16 +173,28 @@
               </mat-form-field>
 
               <mat-form-field class="field-width" appearance="outline">
+                <mat-label>Allocated States</mat-label>
+                <mat-select (openedChange)="selectedStatesPanelChange($event)" (selectionChange)="selectedStates($event)" formControlName="statesAllocated" multiple required>
+                  <mat-option *ngFor="let state of states" [value]="state">
+                    {{state}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              
+            </div>
+            <div class="flex-between">
+
+              <mat-form-field class="field-width" appearance="outline">
                 <mat-label>Allocated Cities</mat-label>
                 <mat-select (selectionChange)="selectedCities($event)" multiple formControlName="citiesAllocated">
                   <mat-option>-- None --</mat-option>
-                  <mat-option *ngFor="let city of cities" [value]="city">
+                  <mat-option *ngFor="let city of multipleCities" [value]="city">
                     {{city}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-            </div>
-            <div class="flex-between">
+
               <mat-form-field class="field-width" appearance="outline">
                 <mat-label>FaceBook ID</mat-label>
                 <input type="text" matInput placeholder="FaceBook ID" formControlName="facebookID">
@@ -193,14 +205,15 @@
                 <input type="text" matInput placeholder="LinkedIn ID" formControlName="linkdinID">
               </mat-form-field>
   
+              
+              
+            </div>
+            <div class="flex-between">
               <mat-form-field class="field-width" appearance="outline">
                 <mat-label>Insta ID</mat-label>
                 <input type="text" matInput placeholder="Insta ID" formControlName="instaID">
               </mat-form-field>
-              
-            </div>
-            <!-- <div class="flex-between">
-              <mat-form-field class="field-width" appearance="outline">
+              <!-- <mat-form-field class="field-width" appearance="outline">
                 <mat-label>Allocated Schools</mat-label>
                 <mat-select multiple formControlName="schoolAllocated">
                   <mat-option>-- None --</mat-option>
@@ -208,8 +221,8 @@
                     {{school?.name}}
                   </mat-option>
                 </mat-select>
-              </mat-form-field>
-            </div> -->
+              </mat-form-field> -->
+            </div>
           </form>
 
           <div class="text-end">

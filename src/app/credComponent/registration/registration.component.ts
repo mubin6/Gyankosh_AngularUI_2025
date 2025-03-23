@@ -4,9 +4,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, map, startWith } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
 import { SchoolService } from 'src/app/services/school.service';
+import { UserService } from 'src/app/services/user.service';
 import { SchoolDetail, SchoolTableDetail, UserReq } from 'src/app/types';
 
 @Component({
@@ -48,12 +50,17 @@ export class RegistrationComponent implements OnInit {
 
   loggedInUserDetails: UserReq | null = null; 
 
+  allSelectedStates: Array<string> = [];
+  multipleCities: Array<string> = [];
+
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
     private dialogRef: MatDialogRef<RegistrationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private schoolService: SchoolService,
+    private spinner: NgxSpinnerService,
+    private userService: UserService,
   ) {
 
   }
@@ -96,6 +103,7 @@ export class RegistrationComponent implements OnInit {
       reportingmanagerId: [this.loggedInUserDetails?.email],
       nameofMyTeam: [''],
       citiesAllocated: [[]],
+      statesAllocated: [[]]
       // schoolAllocated: [[]],
     });
 
@@ -202,5 +210,29 @@ export class RegistrationComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
+  }
+
+  selectedStates(evt: MatSelectChange) {
+    this.allSelectedStates = evt.value;
+  }
+  selectedStatesPanelChange(evt: boolean) {
+    if(!evt && this.allSelectedStates?.length) {
+      this.getMultipleCities();
+    }
+  }
+
+  getMultipleCities() {
+    let stateIds: Array<number> = [];
+    this.allSelectedStates.forEach(state => {
+      const stateId = Object.keys(this.statesObject).find(key => this.statesObject[key] === state);
+      if(stateId) {
+        stateIds.push(+stateId);
+      }
+    })
+    this.spinner.show();
+    this.userService.getMultipleCities(stateIds).subscribe(resp => {
+      this.multipleCities = Object.values(resp);
+      this.spinner.hide();
+    })
   }
 }
